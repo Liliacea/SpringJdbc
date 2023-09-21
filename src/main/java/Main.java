@@ -16,9 +16,10 @@ Person person = new Person.Builder()
         .adress("sdf")
         .salary(35456)
         .build();
-cruDao.insert(person);
 cruDao.update(person);
-        cruDao.findById(2);
+cruDao.findById(2);
+//cruDao.update(person);
+  //     cruDao.findById(1);
 
 
 

@@ -1,6 +1,13 @@
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 
 public class CRUDaoImpl implements CRUDao<Person, Integer> {
@@ -16,23 +23,25 @@ public class CRUDaoImpl implements CRUDao<Person, Integer> {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static final class PersonMapper implements RowMapper<Person> {
+        @Override
+        public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Person person = new Person();
+            person.setId(rs.getInt("id"));
+            person.setName(rs.getString("name"));
+            person.setAge(rs.getInt("age"));
+            person.setAdress(rs.getString("adress"));
+            person.setSalary(rs.getFloat("salary"));
+            System.out.println(person.toString());
+            return new Person();
+        }
+    }
 
     @Override
     public List<Person> select() {
-        //  List<Person> personList = jdbcTemplate.query("SELECT * FROM COMPANY", new BeanPropertyRowMapper<>(Person.class)); //попробовать потом с шаблоном строитель
-        //return personList;
-        return jdbcTemplate.query("SELECT * FROM COMPANY", (resultSet, i) -> {
-
-            Integer id = resultSet.getInt(1);
-            String name = resultSet.getString(2);
-            int age = resultSet.getInt(3);
-            String adress = resultSet.getString(4);
-            float salary = resultSet.getFloat(5);
-            System.out.println(String.format("ID=%s NAME=%s AGE=%s ADRESS=%s SALARY=%s", id, name, age, adress, salary));
-            return new Person(id, name, age, adress, salary);
-        });
-
-
+        List<Person> personList = this.jdbcTemplate.query("SELECT * FROM COMPANY",
+                new PersonMapper());
+        return personList;
     }
 
 
@@ -55,7 +64,7 @@ public class CRUDaoImpl implements CRUDao<Person, Integer> {
         params.put("Adress", person.getAdress());
         params.put("salary", person.getSalary());
         jdbcTemplate.update("INSERT INTO COMPANY (name, age, adress, salary)INSERT INTO COMPANY (name, age, adress, salary) VALUES (?,?,?,?)", params);
-   return person;
+        return person;
     }
 
     @Override
@@ -83,15 +92,8 @@ public class CRUDaoImpl implements CRUDao<Person, Integer> {
 
     @Override
     public Person findById(Integer id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM COMPANY where id = ?", new Object[]{id}, (resultSet, i) ->
-        {
-            String name = resultSet.getString(2);
-            int age = resultSet.getInt(3);
-            String adress = resultSet.getString(4);
-            float salary = resultSet.getFloat(5);
-            System.out.println(String.format("ID=%s NAME=%s AGE=%s ADRESS=%s SALARY=%s", id, name, age, adress, salary));
-            return new Person(id, name, age, adress, salary);
-        });
-
+        return this.jdbcTemplate.queryForObject("SELECT * FROM COMPANY where id =?",
+                new Object[]{id},
+                new PersonMapper());
     }
 }

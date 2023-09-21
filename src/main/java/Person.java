@@ -27,6 +27,10 @@ public class Person {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -48,6 +52,22 @@ public class Person {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public static class Builder {
