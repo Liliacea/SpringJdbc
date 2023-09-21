@@ -3,6 +3,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -23,6 +24,9 @@ public class CRUDaoImpl implements CRUDao<Person, Integer> {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void setDataSource(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
     private static final class PersonMapper implements RowMapper<Person> {
         @Override
         public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -47,7 +51,7 @@ public class CRUDaoImpl implements CRUDao<Person, Integer> {
 
     @Override
     public Person insert(Person person) {
-        jdbcTemplate.update("INSERT INTO COMPANY (name, age, adress, salary) VALUES (?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO company (name, age, adress, salary) VALUES (?,?,?,?)",
                 person.getName(),
                 person.getAge(),
                 person.getAdress(),

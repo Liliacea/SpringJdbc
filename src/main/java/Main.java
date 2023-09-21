@@ -17,7 +17,7 @@ Person person = new Person.Builder()
         .salary(35456)
         .build();
 cruDao.update(person);
-cruDao.findById(2);
+cruDao.select();
 //cruDao.update(person);
   //     cruDao.findById(1);
 
