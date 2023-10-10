@@ -45,11 +45,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
@@ -57,11 +52,7 @@
       <version>${spring.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+
 
     <dependency>
       <groupId>org.springframework.data</groupId>
@@ -69,17 +60,7 @@
       <version>2.0.9.RELEASE</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
 
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-config</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
 
     <dependency>
       <groupId>org.freemarker</groupId>
@@ -99,20 +80,8 @@
       <version>5.3.3.Final</version>
     </dependency>
 
-    <!-- For Java versions starting at 9 -->
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-    <!---->
 
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
-      <scope>provided</scope>
-    </dependency>
+
 
     <dependency>
       <groupId>org.postgresql</groupId>
