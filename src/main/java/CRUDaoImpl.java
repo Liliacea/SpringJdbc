@@ -19,6 +19,10 @@ public class CRUDaoImpl implements CRUDao<Person, Integer> {
     public CRUDaoImpl() {
     }
 
+    public CRUDaoImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

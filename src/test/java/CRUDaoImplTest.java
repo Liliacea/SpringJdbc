@@ -1,11 +1,14 @@
 import org.junit.Test;
+import org.springframework.beans.BeansException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.annotation.Rollback;
 
 
-import javax.sql.DataSource;
+import javax.activation.DataSource;
+import javax.activation.DataSource;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -23,10 +26,13 @@ public class CRUDaoImplTest {
             .salary(35456)
             .build();
 
+    public CRUDaoImplTest() throws BeansException {
+    }
+
 
     @Test
-    public void insert() {
-        DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+    public void insert() throws BeansException {
+        EmbeddedDatabase dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:schema.sql")
                // .addScript("classpath:test-data.sql")
                 .build();
@@ -39,7 +45,7 @@ public class CRUDaoImplTest {
 
     @Test
     public void select() {
-        DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+        EmbeddedDatabase dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:schema.sql")
                 .addScript("classpath:test-data.sql")
                 .build();
@@ -60,7 +66,7 @@ public class CRUDaoImplTest {
 
     @Test
     public void delete() {
-        DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+        EmbeddedDatabase dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:schema.sql")
                 .addScript("classpath:test-data.sql")
                 .build();

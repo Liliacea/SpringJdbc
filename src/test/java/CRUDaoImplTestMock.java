@@ -1,4 +1,7 @@
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -10,14 +13,26 @@ import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.Optional;
+
+@RunWith(SpringRunner.class)
+@ContextConfiguration(locations = {"classpath:springConfig.xml"})
 public class CRUDaoImplTestMock {
 
 
     @Mock
 
     JdbcTemplate jdbcTemplate;
+
+    @Before public void initMocks(){
+        MockitoAnnotations.initMocks(this);
+    }
+
 
 
 
@@ -31,11 +46,19 @@ public class CRUDaoImplTestMock {
 
 
     @Test
-    public void insert() {
-        CRUDaoImpl cruDao = new CRUDaoImpl();
-        ReflectionTestUtils.setField(cruDao,"jdbcTemplate", jdbcTemplate);
-        Mockito.when(jdbcTemplate.update("INSERT INTO company (name, age, adress, salary) VALUES (?,?,?,?)", Person.class)).then();
+    public void findById() {
+       CRUDao<Person,Integer> dao = new CRUDaoImpl(jdbcTemplate);
+       Mockito.doReturn(person).when(jdbcTemplate).queryForObject(Matchers.any(),Matchers.any(),Matchers.<RowMapper<Person>>any());
+       assertEquals(dao.findById(5).getAge(),25);
+       assertEquals(dao.findById(5),person);
+    }
 
-        assertThat(cruDao.insert(person).getAge(), is(25));
+    @Test
+    public void insert(){
+        CRUDao<Person,Integer> dao = new CRUDaoImpl(jdbcTemplate);
+       // Mockito.doReturn(person).when(jdbcTemplate).queryForObject(Matchers.any(),Matchers.any(),Matchers.<RowMapper<Person>>any());
+      //  Mockito.doReturn(5).when(jdbcTemplate).update("INSERT INTO company (name, age, adress, salary) VALUES (?,?,?,?)");
+       assertEquals(dao.insert(person).getAge(),25);
+
     }
 }
