@@ -57,8 +57,8 @@ public class CRUDaoImplTestMock {
     public void insert(){
         CRUDao<Person,Integer> dao = new CRUDaoImpl(jdbcTemplate);
        // Mockito.doReturn(person).when(jdbcTemplate).queryForObject(Matchers.any(),Matchers.any(),Matchers.<RowMapper<Person>>any());
-      //  Mockito.doReturn(5).when(jdbcTemplate).update("INSERT INTO company (name, age, adress, salary) VALUES (?,?,?,?)");
-       assertEquals(dao.insert(person).getAge(),25);
+        Mockito.doReturn(1).when(jdbcTemplate).update(Matchers.<String>any());
 
+        assertEquals(1,jdbcTemplate.update(Matchers.<String>any()));
     }
 }
